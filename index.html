@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="style.css" />
+	<script src="main.js"></script>
+	<title>calc</title>
+</head>
+
+<body>
+	<div id="header">
+		<h1 id="total">0</h1>
+	</div>
+	<div id="main">
+		<div id="item">
+			<button id="item-up">&#x2295</button>
+			<button id="item-down">&#x2296</button>
+			<span id="item-qty">2</span>個
+			<span id="item-price">&yen;200</span>
+			<span id="item-tax">8%</span>
+			<span id="item-total">&yen;432</span>
+		</div>
+	</div>
+	<div id="footer">
+		<div id="calc">
+			<h1 id="price">0</h1>
+			<div class="buttons">
+				<button>7</button>
+				<button>8</button>
+				<button>9</button>
+				<button>4</button>
+				<button>5</button>
+				<button>6</button>
+				<button>1</button>
+				<button>2</button>
+				<button>3</button>
+				<button>0</button>
+				<button class="op">&#x232B</button>
+				<button class="op">&#x23CE</button>
+			</div>
+			<select id="tax" size="3">
+				<option value="0">0%</option>
+				<option value="8" selected="true">8%</option>
+				<option value="10">10%</option>
+			</select>
+			<select id="discount" size="3">
+				<option value="0" selected="true">0%</option>
+				<option value="10">10%</option>
+				<option value="20">20%</option>
+				<option value="30">30%</option>
+				<option value="40">40%</option>
+				<option value="50">50%</option>
+			</select>
+		</div>
+	</div>
+</body>
+
+</html>

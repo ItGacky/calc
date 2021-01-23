@@ -1,0 +1,98 @@
+@charset "utf-8";
+* {
+	outline: none;
+}
+
+body {
+	display: flex;
+	flex-flow: column;
+	min-height: 100vh;
+	overflow: hidden;
+}
+
+#header {
+	background-color: #000;
+}
+
+#main {
+	flex: 1;
+	background-color: #000;
+	color: white;
+}
+
+#footer {
+	background-color: #000;
+}
+
+#calc select {
+	text-align: right;
+	overflow: hidden;
+}
+
+h1 {
+	background-color: #111;
+	color: white;
+	margin: 0;
+	padding: 1rem;
+	font-size: 2rem;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+button,
+select {
+	font-size: 2rem;
+	border: 1px solid #111;
+}
+
+#tax {
+	background-color: orange;
+}
+
+#discount {
+	background-color: blue;
+}
+
+.buttons button {
+	background-color: #efefef;
+}
+
+.buttons button.op {
+	background-color: red;
+}
+
+#calc {
+	display: grid;
+}
+
+#calc {
+	min-height: 6em;
+	grid-template-areas: "digit digit digit price price" "digit digit digit tax discount" "digit digit digit tax discount" "digit digit digit tax discount";
+	grid-auto-columns: 1fr;
+}
+
+#price {
+	grid-area: price;
+}
+
+.buttons {
+	grid-area: digit;
+}
+
+#tax {
+	grid-area: tax;
+}
+
+#discount {
+	grid-area: discount;
+}
+
+.buttons {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.buttons button {
+	flex: 1 0 30%;
+}
