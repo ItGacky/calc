@@ -3,6 +3,12 @@
 	outline: none;
 }
 
+html {
+	font-size: 16px;
+	color: white;
+	background-color: #000;
+}
+
 body {
 	display: flex;
 	flex-flow: column;
@@ -11,17 +17,20 @@ body {
 }
 
 #header {
-	background-color: #000;
+	flex-grow: 0;
+	flex-basis: auto;
 }
 
 #main {
 	flex: 1;
-	background-color: #000;
-	color: white;
+	flex-grow: 1;
+	flex-basis: 0;
+	overflow-y: scroll;
 }
 
 #footer {
-	background-color: #000;
+	flex-grow: 0;
+	flex-basis: auto;
 }
 
 #calc select {
@@ -29,37 +38,49 @@ body {
 	overflow: hidden;
 }
 
-h1 {
+#total {
 	background-color: #111;
-	color: white;
-	margin: 0;
-	padding: 1rem;
+	padding-right: 1rem;
 	font-size: 2rem;
 	display: flex;
 	justify-content: flex-end;
 	align-items: flex-end;
 }
 
-button,
-select {
+#price {
+	background-color: #111;
+	margin: 0;
+	padding-top: 0;
+	padding-right: 1rem;
+	font-size: 2rem;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+button {
 	font-size: 2rem;
 	border: 1px solid #111;
 }
 
+select {
+	font-size: 1rem;
+}
+
 #tax {
-	background-color: orange;
+	background-color: #242;
 }
 
 #discount {
-	background-color: blue;
+	background-color: #224;
 }
 
 .buttons button {
-	background-color: #efefef;
+	background-color: #222;
 }
 
 .buttons button.op {
-	background-color: red;
+	background-color: #422;
 }
 
 #calc {
@@ -67,7 +88,7 @@ select {
 }
 
 #calc {
-	min-height: 6em;
+	min-height: 16rem;
 	grid-template-areas: "digit digit digit price price" "digit digit digit tax discount" "digit digit digit tax discount" "digit digit digit tax discount";
 	grid-auto-columns: 1fr;
 }

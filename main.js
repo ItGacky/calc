@@ -46,7 +46,7 @@
 		for (let item of items) {
 			sum += calcItemTotal(item.qty, item.price, item.tax, item.discount);
 		}
-		setYen(getElement(ID_TOTAL), Math.ceil(sum));
+		setYen(getElement(ID_TOTAL), Math.floor(sum));
 	}
 
 	window.onload = function() {
@@ -79,7 +79,7 @@
 				desc.qty += 1;
 				down.disabled = false;
 				qty.innerText = desc.qty;
-				total.innerText = toYen(Math.ceil(calcItemTotal(desc.qty, desc.price, desc.tax, desc.discount)));
+				total.innerText = toYen(Math.floor(calcItemTotal(desc.qty, desc.price, desc.tax, desc.discount)));
 				updateTotal();
 			});
 			down.addEventListener("click", function() {
@@ -88,15 +88,15 @@
 					down.disabled = true;
 				}
 				qty.innerText = desc.qty;
-				total.innerText = toYen(Math.ceil(calcItemTotal(desc.qty, desc.price, desc.tax, desc.discount)));
+				total.innerText = toYen(Math.floor(calcItemTotal(desc.qty, desc.price, desc.tax, desc.discount)));
 				updateTotal();
 			});
 			qty.innerText = 1;
-			attrs["item-price"].innerText = toYen(Math.ceil(price * (1 - discount / 100)));
+			attrs["item-price"].innerText = toYen(Math.floor(price * (1 - discount / 100)));
 			attrs["item-tax"].innerText = tax + "%";
-			total.innerText = toYen(Math.ceil(calcItemTotal(1, price, tax, discount)));
+			total.innerText = toYen(Math.floor(calcItemTotal(1, price, tax, discount)));
 
-			itemParent.appendChild(itemNode);
+			itemParent.prepend(itemNode);
 
 			updateTotal();
 		}
