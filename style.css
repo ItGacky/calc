@@ -46,6 +46,7 @@ body {
 
 #item {
 	margin: 0.1rem;
+	font-size: 1.2rem;
 	color: white;
 	background-color: #111;
 	border: 1px solid #222;
@@ -53,6 +54,7 @@ body {
 
 #item button {
 	margin: 0.1rem;
+	font-size: 2rem;
 	color: white;
 	background-color: #333;
 	border: 1px solid #222;
