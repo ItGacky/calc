@@ -4,7 +4,7 @@
 	const ID_CALC = "calc";
 	const TEXT_BACK = "\u232B";
 	const TEXT_ENTER = "\u23CE";
-	const TEXT_YEN = "\u005C";
+	const TEXT_YEN = "\u00A5";
 
 	function getElement(id) {
 		return document.getElementById(id);
