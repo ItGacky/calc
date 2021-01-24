@@ -33,6 +33,10 @@ body {
 	flex-basis: auto;
 }
 
+#banner {
+	height: 50px;
+}
+
 #calc select {
 	color: white;
 	text-align: right;

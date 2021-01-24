@@ -1,10 +1,7 @@
 (function() {
-	const ID_CALC = "calc";
-	const ID_PRICE = "price";
-	const ID_TAX = "tax";
-	const ID_DISCOUNT = "discount";
 	const ID_TOTAL = "total";
 	const ID_ITEM = "item";
+	const ID_CALC = "calc";
 	const TEXT_BACK = "\u232B";
 	const TEXT_ENTER = "\u23CE";
 	const TEXT_YEN = "\u005C";
@@ -13,21 +10,24 @@
 		return document.getElementById(id);
 	}
 
-	function findChildren(e, children) {
-		for (let child of e.childNodes) {
-			let id = child.id;
-			if (id && id in children) {
-				children[id] = child;
-			}
+	function queryElements(node, ids) {
+		let nodes = [];
+		for (let id of ids) {
+			nodes.push(node.querySelector("#" + id));
 		}
+		return nodes;
 	}
 
-	function calcItemTotal(qty, price, tax, discount) {
-		return qty * price * (1 - discount / 100) * (1 + tax / 100);
+	function calcItemTotal(qty, unit, tax, discount) {
+		return qty * unit * (1 - discount / 100) * (1 + tax / 100);
 	}
 
 	function toYen(yen) {
 		return TEXT_YEN + String(yen).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+	}
+
+	function toSubTotalYen(item) {
+		return toYen(Math.floor(calcItemTotal(item.qty, item.unit, item.tax, item.discount)));
 	}
 
 	function getYen(e) {
@@ -41,98 +41,85 @@
 
 	let items = [];
 
-	function updateTotal() {
-		let sum = 0;
-		for (let item of items) {
-			sum += calcItemTotal(item.qty, item.price, item.tax, item.discount);
-		}
-		setYen(getElement(ID_TOTAL), Math.floor(sum));
-	}
-
 	window.onload = function() {
-		let itemTemplate = getElement(ID_ITEM);
-		let itemParent = itemTemplate.parentElement;
+		const itemTemplate = getElement(ID_ITEM);
+		const itemParent = itemTemplate.parentElement;
 		itemParent.removeChild(itemTemplate);
 
-		function addItem(price, tax, discount) {
-			let desc = {
-				qty: 1,
-				price: price,
-				tax: tax,
-				discount: discount
-			};
-			items.push(desc);
-			let itemNode = itemTemplate.cloneNode(true);
-			let attrs = {
-				"item-up": null,
-				"item-down": null,
-				"item-qty": null,
-				"item-price": null,
-				"item-tax": null,
-				"item-total": null
-			};
-			findChildren(itemNode, attrs);
-			let down = attrs["item-down"];
-			let qty = attrs["item-qty"];
-			let total = attrs["item-total"];
-			attrs["item-up"].addEventListener("click", function() {
-				desc.qty += 1;
+		const total = getElement(ID_TOTAL);
+
+		function updateTotal() {
+			let sum = 0;
+			for (let item of items) {
+				sum += calcItemTotal(item.qty, item.unit, item.tax, item.discount);
+			}
+			setYen(total, Math.floor(sum));
+		}
+
+		function addItem(item) {
+			items.push(item);
+
+			const node = itemTemplate.cloneNode(true);
+			const [up, down, qty, unit, tax, sub] = queryElements(node, ["up", "down", "qty", "unit", "tax", "sub"]);
+
+			up.addEventListener("click", function() {
+				item.qty += 1;
 				down.disabled = false;
-				qty.innerText = desc.qty;
-				total.innerText = toYen(Math.floor(calcItemTotal(desc.qty, desc.price, desc.tax, desc.discount)));
+				qty.innerText = item.qty;
+				sub.innerText = toSubTotalYen(item);
 				updateTotal();
 			});
 			down.addEventListener("click", function() {
-				desc.qty -= 1;
-				if (desc.qty < 1) {
+				item.qty -= 1;
+				if (item.qty < 1) {
 					down.disabled = true;
 				}
-				qty.innerText = desc.qty;
-				total.innerText = toYen(Math.floor(calcItemTotal(desc.qty, desc.price, desc.tax, desc.discount)));
+				qty.innerText = item.qty;
+				sub.innerText = toSubTotalYen(item);
 				updateTotal();
 			});
 			qty.innerText = 1;
-			attrs["item-price"].innerText = toYen(Math.floor(price * (1 - discount / 100)));
-			attrs["item-tax"].innerText = tax + "%";
-			total.innerText = toYen(Math.floor(calcItemTotal(1, price, tax, discount)));
+			unit.innerText = toYen(Math.floor(item.unit * (1 - item.discount / 100)));
+			tax.innerText = item.tax + "%";
+			sub.innerText = toSubTotalYen(item);
 
-			itemParent.prepend(itemNode);
-
+			itemParent.prepend(node);
 			updateTotal();
 		}
 
-		let calc = getElement(ID_CALC);
-		let buttons = calc.getElementsByTagName("button");
+		const calc = getElement(ID_CALC);
+		const [price, tax, discount] = queryElements(calc, ["price", "tax", "discount"]);
+
+		const buttons = calc.getElementsByTagName("button");
 		for (let button of buttons) {
 			let text = button.innerText;
 			let onClick;
 			switch (text) {
 				case TEXT_BACK:
-					onClick = function() {
-						let price = getElement(ID_PRICE);
-						setYen(price, Math.floor(getYen(price) / 10));
-					};
+					onClick = () => setYen(price, Math.floor(getYen(price) / 10));
 					break;
 				case TEXT_ENTER:
-					onClick = function() {
-						let price = getElement(ID_PRICE);
-						let tax = getElement(ID_TAX).value;
-						let discount = getElement(ID_DISCOUNT).value;
-						addItem(getYen(price), tax, discount);
-						setYen(price, 0);
+					onClick = () => {
+						let unit = getYen(price);
+						if (unit > 0) {
+							addItem({
+								qty: 1,
+								unit: unit,
+								tax: tax.value,
+								discount: discount.value
+							});
+							setYen(price, 0);
+						}
 					};
 					break;
 				default:
-					let n = parseInt(button.innerText);
-					onClick = function() {
-						let price = getElement(ID_PRICE);
-						setYen(price, getYen(price) * 10 + n);
-					};
+					let n = parseInt(text);
+					onClick = () => setYen(price, getYen(price) * 10 + n);
 					break;
 			}
 			button.addEventListener("click", onClick);
 		}
-		setYen(getElement(ID_PRICE), 0);
+		setYen(price, 0);
 		updateTotal();
 	}
 })();
