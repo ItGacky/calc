@@ -26,6 +26,13 @@ body {
 	flex-grow: 1;
 	flex-basis: 0;
 	overflow-y: scroll;
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+#main>div {
+	display: flex;
+	align-items: center;
 }
 
 #footer {
@@ -37,13 +44,36 @@ body {
 	height: 50px;
 }
 
+#item {
+	margin: 0.1rem;
+	color: white;
+	background-color: #111;
+	border: 1px solid #222;
+}
+
+#item button {
+	margin: 0.1rem;
+	color: white;
+	background-color: #333;
+	border: 1px solid #222;
+}
+
+#item button:active {
+	background-color: #111;
+}
+
+#item button:disabled {
+	color: #C00;
+	background-color: #222;
+}
+
 #calc select {
 	color: white;
 	text-align: right;
 	overflow: hidden;
 }
 
-#total {
+#calc #total {
 	background-color: #111;
 	padding-right: 1rem;
 	font-size: 2rem;
@@ -52,7 +82,7 @@ body {
 	align-items: flex-end;
 }
 
-#price {
+#calc #price {
 	background-color: #111;
 	margin: 0;
 	padding-top: 0;
@@ -63,63 +93,56 @@ body {
 	align-items: flex-end;
 }
 
-button {
+#calc button {
 	color: white;
 	font-size: 2rem;
 	border: 1px solid #111;
 }
 
-select {
+#calc select {
 	font-size: 1rem;
-}
-
-#tax {
-	background-color: #242;
-}
-
-#discount {
-	background-color: #224;
-}
-
-.buttons button {
-	background-color: #222;
-}
-
-.buttons button.op {
-	background-color: #422;
 }
 
 #calc {
 	display: grid;
-}
-
-#calc {
 	min-height: 16rem;
 	grid-template-areas: "digit digit digit price price" "digit digit digit tax discount" "digit digit digit tax discount" "digit digit digit tax discount";
 	grid-auto-columns: 1fr;
 }
 
-#price {
+#calc #price {
 	grid-area: price;
 }
 
-.buttons {
+#calc .buttons {
 	grid-area: digit;
-}
-
-#tax {
-	grid-area: tax;
-}
-
-#discount {
-	grid-area: discount;
-}
-
-.buttons {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.buttons button {
+#calc #tax {
+	grid-area: tax;
+	background-color: #242;
+}
+
+#calc #discount {
+	grid-area: discount;
+	background-color: #224;
+}
+
+#calc .buttons button {
 	flex: 1 0 30%;
+	background-color: #222;
+}
+
+#calc .buttons button:active {
+	background-color: #111;
+}
+
+#calc .buttons button.op {
+	background-color: #422;
+}
+
+#calc .buttons button.op:active {
+	background-color: #211;
 }

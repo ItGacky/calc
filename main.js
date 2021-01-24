@@ -84,6 +84,7 @@
 			sub.innerText = toSubTotalYen(item);
 
 			itemParent.prepend(node);
+			itemParent.scrollTop = itemParent.scrollHeight;
 			updateTotal();
 		}
 
