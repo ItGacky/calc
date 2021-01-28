@@ -116,14 +116,16 @@ button:disabled {
 }
 
 #calc .buttons {
-	width: 13rem;
 	border-collapse: collapse;
 }
 
 #calc .buttons td {
-	width: 33.3%;
-	height: 4rem;
 	border: 2px solid #333;
+}
+
+#calc .buttons button {
+	width: 4rem;
+	height: 4rem;
 }
 
 #calc .buttons button.op {
