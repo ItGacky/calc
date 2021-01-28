@@ -14,44 +14,77 @@
 		<h1 id="total">0</h1>
 	</div>
 	<div id="main">
-		<div id="item">
-			<button id="up">&#x2295</button>
-			<button id="down">&#x2296</button>
-			<span id="qty">1</span> &times;
-			<span id="unit">0</span> (<span id="tax">0%</span>) = <span id="sub">0</span>
-		</div>
+		<table class="item">
+			<tr>
+				<td><button class="up">&#x2295</button></td>
+				<td><button class="down">&#x2296</button></td>
+				<td class="qty">1</td>
+				<td>&times;</td>
+				<td class="unit">0</td>
+				<td>(<span class="tax">0%</span>)</td>
+				<td class="sub">0</td>
+			</tr>
+		</table>
 	</div>
 	<div id="footer">
-		<div id="calc">
-			<div id="price">0</div>
-			<div class="buttons">
-				<button>7</button>
-				<button>8</button>
-				<button>9</button>
-				<button>4</button>
-				<button>5</button>
-				<button>6</button>
-				<button>1</button>
-				<button>2</button>
-				<button>3</button>
-				<button>0</button>
-				<button class="op">&#x232B</button>
-				<button class="op">&#x23CE</button>
-			</div>
-			<select id="tax" size="3">
-				<option value="0">0%</option>
-				<option value="8" selected="true">8%</option>
-				<option value="10">10%</option>
-			</select>
-			<select id="discount" size="3">
-				<option value="0" selected="true">0%</option>
-				<option value="10">10%</option>
-				<option value="20">20%</option>
-				<option value="30">30%</option>
-				<option value="40">40%</option>
-				<option value="50">50%</option>
-			</select>
-		</div>
+		<table id="calc">
+			<thead>
+				<tr>
+					<th id="price">0</th>
+					<th>消費税</th>
+					<th>割引</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<table class="buttons">
+							<tr>
+								<td><button>7</button></td>
+								<td><button>8</button></td>
+								<td><button>9</button></td>
+							</tr>
+							<tr>
+								<td><button>4</button></td>
+								<td><button>5</button></td>
+								<td><button>6</button></td>
+							</tr>
+							<tr>
+								<td><button>1</button></td>
+								<td><button>2</button></td>
+								<td><button>3</button></td>
+							</tr>
+							<tr>
+								<td><button>0</button></td>
+								<td><button class="op">&#x232B</button></td>
+								<td><button class="op">&#x23CE</button></td>
+							</tr>
+						</table>
+					</td>
+					<td>
+						<select id="tax" size="3">
+							<option value="0">0%</option>
+							<option value="8" selected="true">8%</option>
+							<option value="10">10%</option>
+						</select>
+					</td>
+					<td>
+						<select id="discount" size="10">
+							<option value="0" selected="true">0%</option>
+							<option value="10">10%</option>
+							<option value="20">20%</option>
+							<option value="30">30%</option>
+							<option value="40">40%</option>
+							<option value="50">50%</option>
+							<option value="60">60%</option>
+							<option value="70">70%</option>
+							<option value="80">80%</option>
+							<option value="90">90%</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<div id="banner">
 		</div>
 	</div>

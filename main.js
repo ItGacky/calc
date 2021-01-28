@@ -1,19 +1,19 @@
 (function() {
-	const ID_TOTAL = "total";
-	const ID_ITEM = "item";
-	const ID_CALC = "calc";
+	const ID_TOTAL = "#total";
+	const ID_ITEM = "#main .item";
+	const ID_CALC = "#calc";
 	const TEXT_BACK = "\u232B";
 	const TEXT_ENTER = "\u23CE";
 	const TEXT_YEN = "\u00A5";
 
 	function getElement(id) {
-		return document.getElementById(id);
+		return document.querySelector(id);
 	}
 
-	function queryElements(node, ids) {
+	function queryElements(node, conds) {
 		let nodes = [];
-		for (let id of ids) {
-			nodes.push(node.querySelector("#" + id));
+		for (let cond of conds) {
+			nodes.push(node.querySelector(cond));
 		}
 		return nodes;
 	}
@@ -60,7 +60,7 @@
 			items.push(item);
 
 			const node = itemTemplate.cloneNode(true);
-			const [up, down, qty, unit, tax, sub] = queryElements(node, ["up", "down", "qty", "unit", "tax", "sub"]);
+			const [up, down, qty, unit, tax, sub] = queryElements(node, [".up", ".down", ".qty", ".unit", ".tax", ".sub"]);
 
 			up.addEventListener("click", function() {
 				item.qty += 1;
@@ -89,7 +89,7 @@
 		}
 
 		const calc = getElement(ID_CALC);
-		const [price, tax, discount] = queryElements(calc, ["price", "tax", "discount"]);
+		const [price, tax, discount] = queryElements(calc, ["#price", "#tax", "#discount"]);
 
 		const buttons = calc.getElementsByTagName("button");
 		for (let button of buttons) {
