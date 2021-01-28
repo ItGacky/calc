@@ -23,7 +23,7 @@
 	}
 
 	function calcItemTotal(qty, unit, tax, discount) {
-		return qty * unit * (100 - discount) / 100 * (100 + tax) / 100;
+		return qty * unit * (100 - discount) * (100 + tax) / 10000;
 	}
 
 	function toYen(yen) {
@@ -61,9 +61,11 @@
 		}
 
 		function addItem(item) {
+			const nth = items.length % 3;
 			items.push(item);
 
 			const node = itemTemplate.cloneNode(true);
+			node.classList.add("nth" + nth);
 			const [up, down, qty, unit, tax, sub] = queryElements(node, [".up", ".down", ".qty", ".unit", ".tax", ".sub"]);
 
 			up.addEventListener("click", function() {

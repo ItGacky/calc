@@ -80,13 +80,28 @@ button:disabled {
 .item {
 	margin: 2px;
 	font-size: 1rem;
-	background-color: #111;
+	background-color: #112;
 	border: 1px solid #222;
+}
+
+.item.nth1 {
+	background-color: #211;
+}
+
+.item.nth2 {
+	background-color: #121;
 }
 
 .item button {
 	width: 2rem;
-	font-size: 1.5rem;
+	height: 2rem;
+	font-size: 1rem;
+}
+
+.item:nth-child(1) button {
+	width: 3rem;
+	height: 3rem;
+	font-size: 2rem;
 }
 
 .item .sub {
@@ -101,7 +116,7 @@ button:disabled {
 }
 
 #calc .buttons {
-	width: 14rem;
+	width: 13rem;
 	border-collapse: collapse;
 }
 
@@ -129,8 +144,8 @@ button:disabled {
 
 #price {
 	background-color: #111;
-	padding-right: 1rem;
-	font-size: 2rem;
+	padding-right: 0.5rem;
+	font-size: 1.5rem;
 	text-align: right;
 }
 
@@ -143,6 +158,7 @@ button:disabled {
 }
 
 #discount {
+	width: 100%;
 	background-color: #224;
 }
 
