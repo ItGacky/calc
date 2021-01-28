@@ -16,8 +16,8 @@
 	<div id="main">
 		<table class="item">
 			<tr>
-				<td><button class="up">&#x2295</button></td>
-				<td><button class="down">&#x2296</button></td>
+				<td><button class="up">+</button></td>
+				<td><button class="down">-</button></td>
 				<td class="qty">1</td>
 				<td>&times;</td>
 				<td class="unit">0</td>
@@ -27,46 +27,42 @@
 		</table>
 	</div>
 	<div id="footer">
-		<table id="calc">
-			<thead>
+		<div id="calc">
+			<table class="buttons">
 				<tr>
-					<th id="price">0</th>
+					<td><button>7</button></td>
+					<td><button>8</button></td>
+					<td><button>9</button></td>
+				</tr>
+				<tr>
+					<td><button>4</button></td>
+					<td><button>5</button></td>
+					<td><button>6</button></td>
+				</tr>
+				<tr>
+					<td><button>1</button></td>
+					<td><button>2</button></td>
+					<td><button>3</button></td>
+				</tr>
+				<tr>
+					<td><button>0</button></td>
+					<td><button class="op">&#x232B</button></td>
+					<td><button class="op">&#x23CE</button></td>
+				</tr>
+			</table>
+			<table class="mods">
+				<tr>
+					<td colspan="2" id="price">0</td>
+				</tr>
+				<tr>
 					<th>消費税</th>
 					<th>割引</th>
 				</tr>
-			</thead>
-			<tbody>
 				<tr>
 					<td>
-						<table class="buttons">
-							<tr>
-								<td><button>7</button></td>
-								<td><button>8</button></td>
-								<td><button>9</button></td>
-							</tr>
-							<tr>
-								<td><button>4</button></td>
-								<td><button>5</button></td>
-								<td><button>6</button></td>
-							</tr>
-							<tr>
-								<td><button>1</button></td>
-								<td><button>2</button></td>
-								<td><button>3</button></td>
-							</tr>
-							<tr>
-								<td><button>0</button></td>
-								<td><button class="op">&#x232B</button></td>
-								<td><button class="op">&#x23CE</button></td>
-							</tr>
-						</table>
-					</td>
-					<td>
-						<select id="tax" size="3">
-							<option value="0">0%</option>
-							<option value="8" selected="true">8%</option>
-							<option value="10">10%</option>
-						</select>
+						<label><input type="radio" name="tax" value="0" />0%</label>
+						<label><input type="radio" name="tax" value="8" checked="chedked" />8%</label>
+						<label><input type="radio" name="tax" value="10" />10%</label>
 					</td>
 					<td>
 						<select id="discount" size="10">
@@ -83,8 +79,8 @@
 						</select>
 					</td>
 				</tr>
-			</tbody>
-		</table>
+			</table>
+		</div>
 		<div id="banner">
 		</div>
 	</div>

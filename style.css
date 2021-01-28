@@ -65,7 +65,7 @@ button:active {
 
 button:disabled {
 	color: #C00;
-	background-color: #222;
+	background-color: #000;
 }
 
 #total {
@@ -85,8 +85,8 @@ button:disabled {
 }
 
 .item button {
-	width: 3rem;
-	font-size: 2rem;
+	width: 2rem;
+	font-size: 1.5rem;
 }
 
 .item .sub {
@@ -95,31 +95,13 @@ button:disabled {
 }
 
 #calc {
-	width: 100%;
-}
-
-#price {
-	width: 14rem;
-	background-color: #111;
-	padding-right: 1rem;
-	font-size: 2rem;
-	text-align: right;
-}
-
-#calc select {
-	font-size: 1rem;
-}
-
-#tax {
-	background-color: #242;
-}
-
-#discount {
-	background-color: #224;
+	display: flex;
+	margin: 0;
+	padding: 0;
 }
 
 #calc .buttons {
-	width: 100%;
+	width: 14rem;
 	border-collapse: collapse;
 }
 
@@ -139,6 +121,29 @@ button:disabled {
 
 #calc .buttons button.op:active {
 	background-color: #211;
+}
+
+#calc .mods {
+	width: 100%;
+}
+
+#price {
+	background-color: #111;
+	padding-right: 1rem;
+	font-size: 2rem;
+	text-align: right;
+}
+
+#calc select {
+	font-size: 1rem;
+}
+
+#calc label {
+	display: block;
+}
+
+#discount {
+	background-color: #224;
 }
 
 #calc select {

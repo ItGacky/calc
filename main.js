@@ -18,6 +18,10 @@
 		return nodes;
 	}
 
+	function queryRadioValue(node, name) {
+		return node.querySelector(`input[name=${name}]:checked`).value;
+	}
+
 	function calcItemTotal(qty, unit, tax, discount) {
 		return qty * unit * (1 - discount / 100) * (1 + tax / 100);
 	}
@@ -89,7 +93,7 @@
 		}
 
 		const calc = getElement(ID_CALC);
-		const [price, tax, discount] = queryElements(calc, ["#price", "#tax", "#discount"]);
+		const [price, discount] = queryElements(calc, ["#price", "#discount"]);
 
 		const buttons = calc.getElementsByTagName("button");
 		for (let button of buttons) {
@@ -106,15 +110,15 @@
 							addItem({
 								qty: 1,
 								unit: unit,
-								tax: tax.value,
-								discount: discount.value
+								tax: parseInt(queryRadioValue(calc, "tax")),
+								discount: parseInt(discount.value),
 							});
 							setYen(price, 0);
 						}
 					};
 					break;
 				default:
-					let n = parseInt(text);
+					let n = parseInt(text, 10);
 					onClick = () => setYen(price, getYen(price) * 10 + n);
 					break;
 			}
