@@ -23,7 +23,7 @@
 	}
 
 	function calcItemTotal(qty, unit, tax, discount) {
-		return qty * unit * (1 - discount / 100) * (1 + tax / 100);
+		return qty * unit * (100 - discount) / 100 * (100 + tax) / 100;
 	}
 
 	function toYen(yen) {
@@ -83,7 +83,7 @@
 				updateTotal();
 			});
 			qty.innerText = 1;
-			unit.innerText = toYen(Math.floor(item.unit * (1 - item.discount / 100)));
+			unit.innerText = toYen(Math.floor(item.unit * (100 - item.discount) / 100));
 			tax.innerText = item.tax + "%";
 			sub.innerText = toSubTotalYen(item);
 
