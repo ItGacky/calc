@@ -152,6 +152,11 @@ button:disabled {
 	display: block;
 }
 
+#calc input[type=radio]:checked+.radio-text {
+	font-weight: bold;
+	color: orange;
+}
+
 #discount {
 	width: 100%;
 	background-color: #224;

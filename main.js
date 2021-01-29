@@ -6,6 +6,10 @@
 	const TEXT_ENTER = "\u23CE";
 	const TEXT_YEN = "\u00A5";
 
+	function parseBoolean(value) {
+		return value === "1"; // XXX: for current usage in time
+	}
+
 	function getElement(id) {
 		return document.querySelector(id);
 	}
@@ -109,10 +113,12 @@
 					onClick = () => {
 						let unit = getYen(price);
 						if (unit > 0) {
+							const tax = parseInt(queryRadioValue(calc, "tax"));
+							const included = parseBoolean(queryRadioValue(calc, "included"));
 							addItem({
 								qty: 1,
-								unit: unit,
-								tax: parseInt(queryRadioValue(calc, "tax")),
+								unit: (included ? Math.ceil(unit * 100 / (100 + tax)) : unit),
+								tax: tax,
 								discount: parseInt(discount.value),
 							});
 							setYen(price, 0);
