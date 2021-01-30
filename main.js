@@ -52,12 +52,10 @@
 		}
 	}
 
-	let items = [];
-
 	window.onload = function() {
 		const itemTemplate = queryElement("#main .item");
-		const itemParent = itemTemplate.parentElement;
-		itemParent.removeChild(itemTemplate);
+		const items = itemTemplate.parentElement;
+		items.removeChild(itemTemplate);
 
 		const total_inc = queryElement("#total-inc");
 		const total_exc = queryElement("#total-exc");
@@ -66,9 +64,10 @@
 		function updateTotal() {
 			let sum_inc = 0;
 			let sum_exc = 0;
-			for (let item of items) {
-				sum_inc += calcItemTotal(item.qty, item.unit, item.tax, item.discount);
-				sum_exc += calcItemTotal(item.qty, item.unit, 0, item.discount);
+			for (let item of items.querySelectorAll(".item")) {
+				const { qty, unit, tax, discount } = item.data;
+				sum_inc += calcItemTotal(qty, unit, tax, discount);
+				sum_exc += calcItemTotal(qty, unit, 0, discount);
 			}
 			sum_inc = Math.floor(sum_inc);
 			sum_exc = Math.floor(sum_exc);
@@ -77,38 +76,42 @@
 			setYen(total_tax, sum_inc - sum_exc);
 		}
 
-		function addItem(item) {
-			const nth = items.length % 3;
-			items.push(item);
+		function addItem(unit_, tax_, discount_) {
+			const data = {
+				qty: 1,
+				unit: unit_,
+				tax: tax_,
+				discount: discount_,
+			};
 
 			const node = itemTemplate.cloneNode(true);
-			node.classList.add("nth" + nth);
+			node.data = data;
 			const [up, down, qty, unit, tax, discount, sub] = queryElements(node, [".up", ".down", ".qty", ".unit", ".tax span", ".discount span", ".sub"]);
 
 			up.addEventListener("click", function() {
-				item.qty += 1;
+				data.qty += 1;
 				down.disabled = false;
-				qty.innerText = item.qty;
-				sub.innerText = toSubTotalYen(item);
+				qty.innerText = data.qty;
+				sub.innerText = toSubTotalYen(data);
 				updateTotal();
 			});
 			down.addEventListener("click", function() {
-				item.qty -= 1;
-				if (item.qty < 1) {
+				data.qty -= 1;
+				if (data.qty < 1) {
 					down.disabled = true;
 				}
-				qty.innerText = item.qty;
-				sub.innerText = toSubTotalYen(item);
+				qty.innerText = data.qty;
+				sub.innerText = toSubTotalYen(data);
 				updateTotal();
 			});
 			qty.innerText = 1;
-			unit.innerText = toYen(item.unit);
-			setItemValue(discount, item.discount);
-			setItemValue(tax, item.tax);
-			sub.innerText = toSubTotalYen(item);
+			unit.innerText = toYen(data.unit);
+			setItemValue(discount, data.discount);
+			setItemValue(tax, data.tax);
+			sub.innerText = toSubTotalYen(data);
 
-			itemParent.prepend(node);
-			itemParent.scrollTop = itemParent.scrollHeight;
+			items.prepend(node);
+			items.scrollTop = items.scrollHeight;
 			updateTotal();
 		}
 
@@ -128,13 +131,10 @@
 						let unit = getYen(price);
 						if (unit > 0) {
 							const tax = parseInt(queryRadioValue(calc, "tax"));
-							const included = parseBoolean(queryRadioValue(calc, "included"));
-							addItem({
-								qty: 1,
-								unit: (included ? Math.ceil(unit * 100 / (100 + tax)) : unit),
-								tax: tax,
-								discount: parseInt(discount.value),
-							});
+							if (parseBoolean(queryRadioValue(calc, "inc"))) {
+								unit = Math.ceil(unit * 100 / (100 + tax));
+							}
+							addItem(unit, tax, parseInt(discount.value));
 							setYen(price, 0);
 						}
 					};
