@@ -65,13 +65,24 @@ button:disabled {
 	background-color: #000;
 }
 
-#total {
+#header .total {
 	background-color: #111;
-	padding-right: 1rem;
-	font-size: 2rem;
+	margin: 0;
 	display: flex;
 	justify-content: flex-end;
-	align-items: flex-end;
+	align-items: center;
+	color: purple;
+	font-size: 1rem;
+}
+
+#header .total span {
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
+
+#header .total span#total-inc {
+	color: white;
+	font-size: 2rem;
 }
 
 .item {
@@ -99,6 +110,16 @@ button:disabled {
 	width: 3rem;
 	height: 3rem;
 	font-size: 2rem;
+}
+
+.item .tax {
+	color: purple;
+	font-size: 0.8rem;
+}
+
+.item .discount {
+	color: yellow;
+	font-size: 0.8rem;
 }
 
 .item .sub {
@@ -144,6 +165,10 @@ button:disabled {
 	text-align: right;
 }
 
+#calc th.tax {
+	width: 50%;
+}
+
 #calc select {
 	font-size: 1rem;
 }
@@ -152,7 +177,7 @@ button:disabled {
 	display: block;
 }
 
-#calc input[type=radio]:checked+.radio-text {
+#calc input[type=radio]:checked+span {
 	font-weight: bold;
 	color: orange;
 }

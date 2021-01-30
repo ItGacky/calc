@@ -1,7 +1,4 @@
 (function() {
-	const ID_TOTAL = "#total";
-	const ID_ITEM = "#main .item";
-	const ID_CALC = "#calc";
 	const TEXT_BACK = "\u232B";
 	const TEXT_ENTER = "\u23CE";
 	const TEXT_YEN = "\u00A5";
@@ -10,14 +7,14 @@
 		return value === "1"; // XXX: for current usage in time
 	}
 
-	function getElement(id) {
-		return document.querySelector(id);
+	function queryElement(expr) {
+		return document.querySelector(expr);
 	}
 
-	function queryElements(node, conds) {
+	function queryElements(node, exprs) {
 		let nodes = [];
-		for (let cond of conds) {
-			nodes.push(node.querySelector(cond));
+		for (let expr of exprs) {
+			nodes.push(node.querySelector(expr));
 		}
 		return nodes;
 	}
@@ -47,21 +44,37 @@
 		e.innerText = toYen(yen);
 	}
 
+	function setItemValue(e, value) {
+		if (value > 0) {
+			e.innerText = value;
+		} else {
+			e.parentElement.style.display = "none";
+		}
+	}
+
 	let items = [];
 
 	window.onload = function() {
-		const itemTemplate = getElement(ID_ITEM);
+		const itemTemplate = queryElement("#main .item");
 		const itemParent = itemTemplate.parentElement;
 		itemParent.removeChild(itemTemplate);
 
-		const total = getElement(ID_TOTAL);
+		const total_inc = queryElement("#total-inc");
+		const total_exc = queryElement("#total-exc");
+		const total_tax = queryElement("#total-tax");
 
 		function updateTotal() {
-			let sum = 0;
+			let sum_inc = 0;
+			let sum_exc = 0;
 			for (let item of items) {
-				sum += calcItemTotal(item.qty, item.unit, item.tax, item.discount);
+				sum_inc += calcItemTotal(item.qty, item.unit, item.tax, item.discount);
+				sum_exc += calcItemTotal(item.qty, item.unit, 0, item.discount);
 			}
-			setYen(total, Math.floor(sum));
+			sum_inc = Math.floor(sum_inc);
+			sum_exc = Math.floor(sum_exc);
+			setYen(total_inc, sum_inc);
+			setYen(total_exc, sum_exc);
+			setYen(total_tax, sum_inc - sum_exc);
 		}
 
 		function addItem(item) {
@@ -70,7 +83,7 @@
 
 			const node = itemTemplate.cloneNode(true);
 			node.classList.add("nth" + nth);
-			const [up, down, qty, unit, tax, sub] = queryElements(node, [".up", ".down", ".qty", ".unit", ".tax", ".sub"]);
+			const [up, down, qty, unit, tax, discount, sub] = queryElements(node, [".up", ".down", ".qty", ".unit", ".tax span", ".discount span", ".sub"]);
 
 			up.addEventListener("click", function() {
 				item.qty += 1;
@@ -89,8 +102,9 @@
 				updateTotal();
 			});
 			qty.innerText = 1;
-			unit.innerText = toYen(Math.floor(item.unit * (100 - item.discount) / 100));
-			tax.innerText = item.tax + "%";
+			unit.innerText = toYen(item.unit);
+			setItemValue(discount, item.discount);
+			setItemValue(tax, item.tax);
 			sub.innerText = toSubTotalYen(item);
 
 			itemParent.prepend(node);
@@ -98,7 +112,7 @@
 			updateTotal();
 		}
 
-		const calc = getElement(ID_CALC);
+		const calc = queryElement("#calc");
 		const [price, discount] = queryElements(calc, ["#price", "#discount"]);
 
 		const buttons = calc.getElementsByTagName("button");

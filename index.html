@@ -11,7 +11,9 @@
 
 <body>
 	<div id="header">
-		<h1 id="total">0</h1>
+		<h1 class="total">
+			<span id="total-exc">0</span>&plus;<span id="total-tax">0</span>=<span id="total-inc">0</span>
+		</h1>
 	</div>
 	<div id="main">
 		<table class="item">
@@ -21,7 +23,8 @@
 				<td class="qty">1</td>
 				<td>&times;</td>
 				<td class="unit">0</td>
-				<td>(<span class="tax">0%</span>)</td>
+				<td class="tax">(<span>0</span>%)</td>
+				<td class="discount">(-<span>0</span>%)</td>
 				<td class="sub">0</td>
 			</tr>
 		</table>
@@ -55,17 +58,17 @@
 					<td colspan="2" id="price">0</td>
 				</tr>
 				<tr>
-					<th>消費税</th>
-					<th>割引</th>
+					<th class="tax">消費税</th>
+					<th class="discount">割引</th>
 				</tr>
 				<tr>
 					<td>
-						<label><input type="radio" name="tax" value="0" /><span class="radio-text">0%</span></label>
-						<label><input type="radio" name="tax" value="8" checked="chedked" /><span class="radio-text">8%</span></label>
-						<label><input type="radio" name="tax" value="10" /><span class="radio-text">10%</span></label>
+						<label><input type="radio" name="tax" value="0" /><span>0%</span></label>
+						<label><input type="radio" name="tax" value="8" checked="chedked" /><span>8%</span></label>
+						<label><input type="radio" name="tax" value="10" /><span>10%</span></label>
 						<hr>
-						<label><input type="radio" name="included" value="0" checked="chedked" /><span class="radio-text">税別</span></label>
-						<label><input type="radio" name="included" value="1" /><span class="radio-text">税込</span></label>
+						<label><input type="radio" name="included" value="0" checked="chedked" /><span>税別</span></label>
+						<label><input type="radio" name="included" value="1" /><span>税込</span></label>
 					</td>
 					<td>
 						<select id="discount" size="10">
