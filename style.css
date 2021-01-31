@@ -1,27 +1,43 @@
 @charset "utf-8";
+:root {
+	--color-text: white;
+	--color-warning: #C00;
+	--color-radio: orange;
+	--color-tax: brown;
+	--color-discount: yellow;
+	--color-bg: #000;
+	--color-item: #111;
+	--color-item-border: #444;
+	--color-border: #111;
+	--color-price: #222;
+	--color-button: #222;
+	--color-button-active: #111;
+	--color-op: #422;
+	--color-op-active: #211;
+	--color-menu: #333;
+}
+
 * {
 	outline: none;
 }
 
 .fadeout {
-	animation: fadein-keyframes 400ms ease-in 0s 1 forwards;
+	animation: fadein-keyframes 400ms linear 0s 1 forwards;
 }
 
 @keyframes fadein-keyframes {
 	0% {
 		opacity: 1;
-		transform: translateX(0%);
 	}
 	100% {
 		opacity: 0;
-		transform: translateX(100%);
 	}
 }
 
 html {
 	font-size: 1em;
-	color: white;
-	background-color: #000;
+	color: color(--color-text);
+	background-color: var(--color-bg);
 	touch-action: manipulation;
 }
 
@@ -37,9 +53,16 @@ body {
 #header {
 	flex-grow: 0;
 	flex-basis: auto;
+	background-color: var(--color-price);
+	margin: 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	color: var(--color-tax);
+	font-size: 1rem;
 }
 
-#main {
+#items {
 	flex: 1;
 	flex-grow: 1;
 	flex-basis: 0;
@@ -49,17 +72,14 @@ body {
 	overflow-y: auto;
 }
 
-#main>div {
-	display: flex;
-	align-items: center;
-}
-
-#footer {
+#calc {
 	flex-grow: 0;
 	flex-basis: auto;
 }
 
 #banner {
+	flex-grow: 0;
+	flex-basis: auto;
 	height: 2rem;
 }
 
@@ -67,44 +87,34 @@ button {
 	width: 100%;
 	height: 100%;
 	font-size: 2rem;
-	color: white;
-	background-color: #222;
-	border: 1px solid #111;
+	background-color: var(--color-button);
+	border: 1px solid var(--color-border);
 }
 
 button:active {
-	background-color: #111;
+	background-color: var(--color-button-active);
 }
 
 button.remove {
-	color: #C00;
+	color: var(--color-warning);
 }
 
-#header .total {
-	background-color: #222;
-	margin: 0;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	color: brown;
-	font-size: 1rem;
+#header span {
+	margin: 0 0.25rem;
 }
 
-#header .total span {
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
-}
-
-#header .total span#total-inc {
-	color: white;
+#header span#total-inc {
+	color: var(--color-text);
 	font-size: 2rem;
+	margin-right: 0.5rem;
 }
 
 .item {
 	margin: 2px;
 	font-size: 1rem;
-	background-color: #111;
-	border: 1px solid #222;
+	background-color: var(--color-item);
+	border-top: 1px solid var(--color-item-border);
+	margin: 0;
 }
 
 .item button {
@@ -120,12 +130,12 @@ button.remove {
 }
 
 .item .tax {
-	color: brown;
+	color: var(--color-tax);
 	font-size: 0.8rem;
 }
 
 .item .discount {
-	color: yellow;
+	color: var(--color-discount);
 	font-size: 0.8rem;
 }
 
@@ -145,7 +155,7 @@ button.remove {
 }
 
 #calc .buttons td {
-	border: 2px solid #333;
+	border: 2px solid var(--color-button);
 }
 
 #calc .buttons button {
@@ -154,19 +164,19 @@ button.remove {
 }
 
 #calc .buttons button.op {
-	background-color: #422;
+	background-color: var(--color-op);
 }
 
 #calc .buttons button.op:active {
-	background-color: #211;
+	background-color: var(--color-op-active);
 }
 
 #calc .mods {
 	width: 100%;
 }
 
-#price {
-	background-color: #222;
+#unit {
+	background-color: var(--color-price);
 	padding-right: 0.5rem;
 	font-size: 1.5rem;
 	text-align: right;
@@ -182,10 +192,72 @@ button.remove {
 
 #calc input[type=radio]:checked+span {
 	font-weight: bold;
-	color: orange;
+	color: var(--color-radio);
 }
 
 #calc td.discount div {
 	height: 12rem;
 	overflow-y: auto;
+}
+
+.menu-open {
+	position: fixed;
+	top: 10px;
+	left: 10px;
+	display: flex;
+	width: 3rem;
+	height: 3rem;
+	justify-content: center;
+	align-items: center;
+	z-index: 90;
+	background-color: var(--color-menu);
+	border: 2px solid var(--color-text);
+}
+
+.menu-open:before {
+	display: block;
+	position: absolute;
+	content: "\2630";
+	font-size: 2rem;
+}
+
+#menu-state {
+	display: none;
+}
+
+#menu-state:checked~.menu-open:before {
+	content: "\2715";
+}
+
+#menu-state:checked~.menu-content {
+	left: 0;
+}
+
+.menu-content {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: -100%;
+	z-index: 80;
+	background-color: var(--color-menu);
+	transition: all 400ms;
+}
+
+.menu-content ul {
+	padding: 4rem 1rem 0;
+}
+
+.menu-content ul li {
+	border-bottom: solid 1px var(--color-text);
+	list-style: none;
+}
+
+.menu-content ul li {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	text-decoration: none;
+	padding: 0.5rem 1rem 0.5rem 0;
+	position: relative;
 }

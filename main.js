@@ -54,12 +54,12 @@
 
 	function setYen(e, yen) {
 		e.value = yen;
-		e.innerText = toYen(yen);
+		e.textContent = toYen(yen);
 	}
 
 	function setItemValue(e, value) {
 		if (value > 0) {
-			e.innerText = value;
+			e.textContent = value;
 		} else {
 			setVisible(e.parentElement, false);
 		}
@@ -71,13 +71,15 @@
 			total_inc,
 			total_exc,
 			total_tax,
-			calc
+			calc,
+			clear
 		] = querySelectorEach(document, [
-			"#main .item",
+			"#items .item",
 			"#total-inc",
 			"#total-exc",
 			"#total-tax",
-			"#calc"
+			"#calc",
+			"#clear"
 		]);
 
 		const items = itemTemplate.parentElement;
@@ -136,15 +138,15 @@
 
 			up.addEventListener("click", () => {
 				data.qty += 1;
-				qty.innerText = data.qty;
-				sub.innerText = toSubTotalYen(data);
+				qty.textContent = data.qty;
+				sub.textContent = toSubTotalYen(data);
 				updateButtons();
 				updateTotal();
 			});
 			down.addEventListener("click", () => {
 				data.qty -= 1;
-				qty.innerText = data.qty;
-				sub.innerText = toSubTotalYen(data);
+				qty.textContent = data.qty;
+				sub.textContent = toSubTotalYen(data);
 				updateButtons();
 				updateTotal();
 			});
@@ -154,11 +156,11 @@
 				updateTotal();
 				setAnimation(item, "fadeout", () => items.removeChild(item));
 			});
-			qty.innerText = 1;
-			unit.innerText = toYen(data.unit);
+			qty.textContent = 1;
+			unit.textContent = toYen(data.unit);
 			setItemValue(discount, data.discount);
 			setItemValue(tax, data.tax);
-			sub.innerText = toSubTotalYen(data);
+			sub.textContent = toSubTotalYen(data);
 
 			updateButtons();
 			items.prepend(item);
@@ -166,37 +168,42 @@
 			updateTotal();
 		}
 
-		const price = calc.querySelector("#price");
+		const unit = calc.querySelector("#unit");
 		const buttons = calc.getElementsByTagName("button");
 		for (let button of buttons) {
-			const text = button.innerText;
+			const text = button.textContent;
 			let onClick;
 			switch (text) {
 				case TEXT_BACK:
-					onClick = () => setYen(price, Math.floor(getYen(price) / 10));
+					onClick = () => setYen(unit, Math.floor(getYen(unit) / 10));
 					break;
 				case TEXT_ENTER:
 					onClick = () => {
-						let unit = getYen(price);
-						if (unit > 0) {
+						let yen = getYen(unit);
+						if (yen > 0) {
 							const tax = parseDecimal(queryRadioValue(calc, "tax"));
 							if (parseBoolean(queryRadioValue(calc, "inc"))) {
-								unit = Math.ceil(unit * 100 / (100 + tax));
+								yen = Math.ceil(yen * 100 / (100 + tax));
 							}
 							const discount = parseDecimal(queryRadioValue(calc, "discount"));
-							addItem(unit, tax, discount);
-							setYen(price, 0);
+							addItem(yen, tax, discount);
+							setYen(unit, 0);
 						}
 					};
 					break;
 				default:
 					const n = parseDecimal(text);
-					onClick = () => setYen(price, getYen(price) * 10 + n);
+					onClick = () => setYen(unit, getYen(unit) * 10 + n);
 					break;
 			}
 			button.addEventListener("click", onClick);
 		}
-		setYen(price, 0);
+		setYen(unit, 0);
 		updateTotal();
+
+		clear.addEventListener("click", () => {
+			items.textContent = "";
+			updateTotal();
+		});
 	}
 })();
