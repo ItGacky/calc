@@ -11,6 +11,10 @@
 		return parseInt(text, 10);
 	}
 
+	function setVisible(e, value) {
+		e.style.display = (value ? "" : "none");
+	}
+
 	function queryElement(expr) {
 		return document.querySelector(expr);
 	}
@@ -52,7 +56,7 @@
 		if (value > 0) {
 			e.innerText = value;
 		} else {
-			e.parentElement.style.display = "none";
+			setVisible(e.parentElement, false);
 		}
 	}
 
@@ -88,25 +92,42 @@
 				discount: discount_,
 			};
 
-			const node = itemTemplate.cloneNode(true);
-			node.data = data;
-			const [up, down, qty, unit, tax, discount, sub] = queryElements(node, [".up", ".down", ".qty", ".unit", ".tax span", ".discount span", ".sub"]);
+			const item = itemTemplate.cloneNode(true);
+			item.data = data;
+			const [up, down, remove, qty, unit, tax, discount, sub] = queryElements(item, [".up", ".down", ".remove", ".qty", ".unit", ".tax span", ".discount span", ".sub"]);
 
-			up.addEventListener("click", function() {
+			function updateButtons() {
+				const some = (data.qty > 0);
+				setVisible(down.parentElement, !(down.disabled = !some));
+				setVisible(remove.parentElement, !(remove.disabled = some));
+			}
+
+			up.addEventListener("click", () => {
 				data.qty += 1;
-				down.disabled = false;
 				qty.innerText = data.qty;
 				sub.innerText = toSubTotalYen(data);
+				updateButtons();
 				updateTotal();
 			});
-			down.addEventListener("click", function() {
+			down.addEventListener("click", () => {
 				data.qty -= 1;
-				if (data.qty < 1) {
-					down.disabled = true;
-				}
 				qty.innerText = data.qty;
 				sub.innerText = toSubTotalYen(data);
+				updateButtons();
 				updateTotal();
+			});
+			remove.addEventListener("click", () => {
+				data.qty = 0;
+				up.disabled = down.disabled = close.disabled = true;
+				updateTotal();
+				if (item.style.animationName !== undefined) {
+					item.addEventListener('animationend', () => {
+						items.removeChild(item);
+					});
+					item.classList.add("fadeout");
+				} else {
+					items.removeChild(item);
+				}
 			});
 			qty.innerText = 1;
 			unit.innerText = toYen(data.unit);
@@ -114,7 +135,8 @@
 			setItemValue(tax, data.tax);
 			sub.innerText = toSubTotalYen(data);
 
-			items.prepend(node);
+			updateButtons();
+			items.prepend(item);
 			items.scrollTop = items.scrollHeight;
 			updateTotal();
 		}

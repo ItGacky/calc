@@ -3,6 +3,21 @@
 	outline: none;
 }
 
+.fadeout {
+	animation: fadein-keyframes 400ms ease-in 0s 1 forwards;
+}
+
+@keyframes fadein-keyframes {
+	0% {
+		opacity: 1;
+		transform: translateX(0%);
+	}
+	100% {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+}
+
 html {
 	font-size: 1em;
 	color: white;
@@ -30,6 +45,7 @@ body {
 	flex-basis: 0;
 	display: flex;
 	flex-flow: column-reverse;
+	overflow-x: hidden;
 	overflow-y: auto;
 }
 
@@ -60,9 +76,8 @@ button:active {
 	background-color: #111;
 }
 
-button:disabled {
+button.remove {
 	color: #C00;
-	background-color: #000;
 }
 
 #header .total {
