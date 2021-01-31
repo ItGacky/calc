@@ -7,6 +7,10 @@
 		return value === "1"; // XXX: for current usage in time
 	}
 
+	function parseDecimal(text) {
+		return parseInt(text, 10);
+	}
+
 	function queryElement(expr) {
 		return document.querySelector(expr);
 	}
@@ -116,7 +120,7 @@
 		}
 
 		const calc = queryElement("#calc");
-		const [price, discount] = queryElements(calc, ["#price", "#discount"]);
+		const price = calc.querySelector("#price");
 
 		const buttons = calc.getElementsByTagName("button");
 		for (let button of buttons) {
@@ -130,17 +134,18 @@
 					onClick = () => {
 						let unit = getYen(price);
 						if (unit > 0) {
-							const tax = parseInt(queryRadioValue(calc, "tax"));
+							const tax = parseDecimal(queryRadioValue(calc, "tax"));
 							if (parseBoolean(queryRadioValue(calc, "inc"))) {
 								unit = Math.ceil(unit * 100 / (100 + tax));
 							}
-							addItem(unit, tax, parseInt(discount.value));
+							const discount = parseDecimal(queryRadioValue(calc, "discount"));
+							addItem(unit, tax, discount);
 							setYen(price, 0);
 						}
 					};
 					break;
 				default:
-					let n = parseInt(text, 10);
+					let n = parseDecimal(text);
 					onClick = () => setYen(price, getYen(price) * 10 + n);
 					break;
 			}

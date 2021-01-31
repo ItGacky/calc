@@ -55,14 +55,14 @@
 			</table>
 			<table class="mods">
 				<tr>
-					<th colspan="2" id="price">0</th>
+					<th colspan="3" id="price">0</th>
 				</tr>
 				<tr>
-					<th class="tax">消費税</th>
-					<th class="discount">割引</th>
+					<th>消費税</th>
+					<th colspan="2">割引</th>
 				</tr>
 				<tr>
-					<td>
+					<td class="tax">
 						<label><input type="radio" name="tax" value="0" /><span>0%</span></label>
 						<label><input type="radio" name="tax" value="8" checked="chedked" /><span>8%</span></label>
 						<label><input type="radio" name="tax" value="10" /><span>10%</span></label>
@@ -70,19 +70,19 @@
 						<label><input type="radio" name="inc" value="0" checked="chedked" /><span>税別</span></label>
 						<label><input type="radio" name="inc" value="1" /><span>税込</span></label>
 					</td>
-					<td>
-						<select id="discount" size="10">
-							<option value="0" selected="true">0%</option>
-							<option value="10">10%</option>
-							<option value="20">20%</option>
-							<option value="30">30%</option>
-							<option value="40">40%</option>
-							<option value="50">50%</option>
-							<option value="60">60%</option>
-							<option value="70">70%</option>
-							<option value="80">80%</option>
-							<option value="90">90%</option>
-						</select>
+					<td class="discount">
+						<label><input type="radio" name="discount" value="0" checked="chedked" /><span>0%</span></label>
+						<label><input type="radio" name="discount" value="10" /><span>10%</span></label>
+						<label><input type="radio" name="discount" value="20" /><span>20%</span></label>
+						<label><input type="radio" name="discount" value="30" /><span>30%</span></label>
+						<label><input type="radio" name="discount" value="40" /><span>40%</span></label>
+					</td>
+					<td class="discount">
+						<label><input type="radio" name="discount" value="50" /><span>50%</span></label>
+						<label><input type="radio" name="discount" value="60" /><span>60%</span></label>
+						<label><input type="radio" name="discount" value="70" /><span>70%</span></label>
+						<label><input type="radio" name="discount" value="80" /><span>80%</span></label>
+						<label><input type="radio" name="discount" value="90" /><span>90%</span></label>
 					</td>
 				</tr>
 			</table>

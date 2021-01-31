@@ -28,9 +28,9 @@ body {
 	flex: 1;
 	flex-grow: 1;
 	flex-basis: 0;
-	overflow-y: scroll;
 	display: flex;
-	flex-direction: column-reverse;
+	flex-flow: column-reverse;
+	overflow-y: scroll;
 }
 
 #main>div {
@@ -44,7 +44,7 @@ body {
 }
 
 #banner {
-	height: 1rem;
+	height: 2rem;
 }
 
 button {
@@ -157,12 +157,12 @@ button:disabled {
 	text-align: right;
 }
 
-#calc th.tax {
-	width: 50%;
+#calc td.tax {
+	width: 33%;
 }
 
-#calc select {
-	font-size: 1rem;
+#calc td.discount {
+	width: 33%;
 }
 
 #calc label {
@@ -172,14 +172,4 @@ button:disabled {
 #calc input[type=radio]:checked+span {
 	font-weight: bold;
 	color: orange;
-}
-
-#discount {
-	width: 100%;
-}
-
-#calc select {
-	color: white;
-	text-align: right;
-	overflow: hidden;
 }
