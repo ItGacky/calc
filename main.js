@@ -15,16 +15,21 @@
 		e.style.display = (value ? "" : "none");
 	}
 
-	function queryElement(expr) {
-		return document.querySelector(expr);
+	function setAnimation(e, style, onend) {
+		if (e.style.animationName !== undefined) {
+			e.addEventListener("animationend", onend);
+			e.classList.add(style);
+		} else {
+			onend.call(e);
+		}
 	}
 
-	function queryElements(node, exprs) {
-		let nodes = [];
+	function querySelectorEach(node, exprs) {
+		const elems = [];
 		for (let expr of exprs) {
-			nodes.push(node.querySelector(expr));
+			elems.push(node.querySelector(expr));
 		}
-		return nodes;
+		return elems;
 	}
 
 	function queryRadioValue(node, name) {
@@ -61,13 +66,22 @@
 	}
 
 	window.onload = function() {
-		const itemTemplate = queryElement("#main .item");
+		const [
+			itemTemplate,
+			total_inc,
+			total_exc,
+			total_tax,
+			calc
+		] = querySelectorEach(document, [
+			"#main .item",
+			"#total-inc",
+			"#total-exc",
+			"#total-tax",
+			"#calc"
+		]);
+
 		const items = itemTemplate.parentElement;
 		items.removeChild(itemTemplate);
-
-		const total_inc = queryElement("#total-inc");
-		const total_exc = queryElement("#total-exc");
-		const total_tax = queryElement("#total-tax");
 
 		function updateTotal() {
 			let sum_inc = 0;
@@ -94,7 +108,25 @@
 
 			const item = itemTemplate.cloneNode(true);
 			item.data = data;
-			const [up, down, remove, qty, unit, tax, discount, sub] = queryElements(item, [".up", ".down", ".remove", ".qty", ".unit", ".tax span", ".discount span", ".sub"]);
+			const [
+				up,
+				down,
+				remove,
+				qty,
+				unit,
+				tax,
+				discount,
+				sub
+			] = querySelectorEach(item, [
+				".up",
+				".down",
+				".remove",
+				".qty",
+				".unit",
+				".tax span",
+				".discount span",
+				".sub"
+			]);
 
 			function updateButtons() {
 				const some = (data.qty > 0);
@@ -120,14 +152,7 @@
 				data.qty = 0;
 				up.disabled = down.disabled = close.disabled = true;
 				updateTotal();
-				if (item.style.animationName !== undefined) {
-					item.addEventListener('animationend', () => {
-						items.removeChild(item);
-					});
-					item.classList.add("fadeout");
-				} else {
-					items.removeChild(item);
-				}
+				setAnimation(item, "fadeout", () => items.removeChild(item));
 			});
 			qty.innerText = 1;
 			unit.innerText = toYen(data.unit);
@@ -141,12 +166,10 @@
 			updateTotal();
 		}
 
-		const calc = queryElement("#calc");
 		const price = calc.querySelector("#price");
-
 		const buttons = calc.getElementsByTagName("button");
 		for (let button of buttons) {
-			let text = button.innerText;
+			const text = button.innerText;
 			let onClick;
 			switch (text) {
 				case TEXT_BACK:
@@ -167,7 +190,7 @@
 					};
 					break;
 				default:
-					let n = parseDecimal(text);
+					const n = parseDecimal(text);
 					onClick = () => setYen(price, getYen(price) * 10 + n);
 					break;
 			}
