@@ -36,7 +36,7 @@
 
 html {
 	font-size: 1em;
-	color: color(--color-text);
+	color: var(--color-text);
 	background-color: var(--color-bg);
 	touch-action: manipulation;
 }
