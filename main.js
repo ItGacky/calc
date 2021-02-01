@@ -75,6 +75,8 @@
 	}
 
 	window.onload = function() {
+		let modified = true;
+
 		const [
 			itemTemplate,
 			total_inc,
@@ -82,7 +84,7 @@
 			total_tax,
 			calc,
 			clear,
-			debug
+			save
 		] = querySelectorEach(document, [
 			"#items .item",
 			"#total-inc",
@@ -90,13 +92,14 @@
 			"#total-tax",
 			"#calc",
 			"#clear",
-			"#debug"
+			"#save"
 		]);
 
 		const items = itemTemplate.parentElement;
 		items.removeChild(itemTemplate);
 
 		function updateTotal() {
+			modified = true;
 			let sum_inc = 0;
 			let sum_exc = 0;
 			for (let item of items.querySelectorAll(".item")) {
@@ -236,29 +239,34 @@
 			updateTotal();
 		});
 
-		debug.addEventListener("click", () => {
-			try {
-				const text = serialize();
-				items.textContent = "";
-				deserialize(text);
-			} catch (e) {
-				console.log(e);
+		function loadItems() {
+			if (modified) {
+				try {
+					deserialize(localStorage.getItem(STORAGE_KEY));
+					updateTotal();
+				} catch (e) {
+					// ignore
+				}
+				modified = false;
 			}
-			updateTotal();
-		});
-
-		try {
-			deserialize(localStorage.getItem(STORAGE_KEY));
-		} catch (e) {
-			// ignore
 		}
 
-		window.addEventListener("beforeunload", () => {
-			try {
-				localStorage.setItem(STORAGE_KEY, serialize());
-			} catch (e) {
-				// ignore
+		function saveItems() {
+			if (modified) {
+				modified = false;
+				try {
+					localStorage.setItem(STORAGE_KEY, serialize());
+				} catch (e) {
+					// ignore
+				}
 			}
-		});
+		}
+
+		window.addEventListener("pageshow", loadItems);
+		window.addEventListener("pagehide", saveItems);
+		window.addEventListener("beforeunload", saveItems);
+		window.addEventListener("unload", saveItems);
+		save.addEventListener("click", saveItems);
+		loadItems();
 	}
 })();
