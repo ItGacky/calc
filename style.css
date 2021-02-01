@@ -83,16 +83,22 @@ body {
 	height: 2rem;
 }
 
+td,
+th {
+	margin: 0;
+	padding: 0;
+}
+
 button {
-	width: 100%;
-	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	text-align: center;
-	line-height: 50px;
+	padding: 0;
+	margin: 0;
 	font-size: 2rem;
 	color: var(--color-text);
 	background-color: var(--color-button);
-	padding: 0;
-	margin: 0;
 	border: 1px solid var(--color-border);
 }
 
@@ -150,46 +156,44 @@ button.remove {
 
 .item .sub {
 	width: 100%;
+	padding-right: 0.5rem;
 	text-align: right;
 }
 
 #calc {
-	display: flex;
 	margin: 0;
 	padding: 0;
-}
-
-#calc td,
-#calc th {
-	padding: 0;
-}
-
-#calc .buttons {
+	width: 100%;
 	border-collapse: collapse;
 }
 
-#calc .buttons td {
+#calc td {
 	border: 1px solid var(--color-border);
 }
 
-#calc .buttons button {
+#calc button {
 	width: 4rem;
 	height: 4rem;
 }
 
-#calc .buttons button.op {
+#calc button.op {
 	background-color: var(--color-op);
 }
 
-#calc .buttons button.op:active {
+#calc button.op:active {
 	background-color: var(--color-op-active);
 }
 
 #calc .mods {
 	width: 100%;
+	vertical-align: top;
 }
 
-#calc td#unit {
+#calc .mods table {
+	width: 100%;
+}
+
+#unit {
 	background-color: var(--color-price);
 	padding-right: 0.5rem;
 	font-size: 1.5rem;
@@ -221,6 +225,9 @@ button.remove {
 	display: flex;
 	width: 3rem;
 	height: 3rem;
+	text-align: center;
+	padding: 0;
+	margin: 0;
 	justify-content: center;
 	align-items: center;
 	z-index: 90;

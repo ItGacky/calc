@@ -28,63 +28,61 @@
 			</tr>
 		</table>
 	</div>
-	<div id="calc">
-		<table class="buttons">
-			<tr>
-				<td><button>7</button></td>
-				<td><button>8</button></td>
-				<td><button>9</button></td>
-			</tr>
-			<tr>
-				<td><button>4</button></td>
-				<td><button>5</button></td>
-				<td><button>6</button></td>
-			</tr>
-			<tr>
-				<td><button>1</button></td>
-				<td><button>2</button></td>
-				<td><button>3</button></td>
-			</tr>
-			<tr>
-				<td><button>0</button></td>
-				<td><button class="op">&#x232B</button></td>
-				<td><button class="op">&#x23CE</button></td>
-			</tr>
-		</table>
-		<table class="mods">
-			<tr>
-				<td colspan="3" id="unit">0</td>
-			</tr>
-			<tr>
-				<th>消費税</th>
-				<th>割引</th>
-			</tr>
-			<tr>
-				<td class="tax">
-					<label><input type="radio" name="tax" value="0" /><span>0%</span></label>
-					<label><input type="radio" name="tax" value="8" checked="chedked" /><span>8%</span></label>
-					<label><input type="radio" name="tax" value="10" /><span>10%</span></label>
-					<hr />
-					<label><input type="radio" name="inc" value="0" checked="chedked" /><span>税別</span></label>
-					<label><input type="radio" name="inc" value="1" /><span>税込</span></label>
-				</td>
-				<td class="discount">
-					<div>
-						<label><input type="radio" name="discount" value="0" checked="chedked" /><span>0%</span></label>
-						<label><input type="radio" name="discount" value="10" /><span>10%</span></label>
-						<label><input type="radio" name="discount" value="20" /><span>20%</span></label>
-						<label><input type="radio" name="discount" value="30" /><span>30%</span></label>
-						<label><input type="radio" name="discount" value="40" /><span>40%</span></label>
-						<label><input type="radio" name="discount" value="50" /><span>50%</span></label>
-						<label><input type="radio" name="discount" value="60" /><span>60%</span></label>
-						<label><input type="radio" name="discount" value="70" /><span>70%</span></label>
-						<label><input type="radio" name="discount" value="80" /><span>80%</span></label>
-						<label><input type="radio" name="discount" value="90" /><span>90%</span></label>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</div>
+	<table id="calc">
+		<tr>
+			<td><button>7</button></td>
+			<td><button>8</button></td>
+			<td><button>9</button></td>
+			<td rowspan="4" class="mods">
+				<div id="unit">0</div>
+				<table>
+					<tr>
+						<th>消費税</th>
+						<th>割引</th>
+					</tr>
+					<tr>
+						<td class="tax">
+							<label><input type="radio" name="tax" value="0" /><span>0%</span></label>
+							<label><input type="radio" name="tax" value="8" checked="chedked" /><span>8%</span></label>
+							<label><input type="radio" name="tax" value="10" /><span>10%</span></label>
+							<hr />
+							<label><input type="radio" name="inc" value="0" checked="chedked" /><span>税別</span></label>
+							<label><input type="radio" name="inc" value="1" /><span>税込</span></label>
+						</td>
+						<td class="discount">
+							<div>
+								<label><input type="radio" name="discount" value="0" checked="chedked" /><span>0%</span></label>
+								<label><input type="radio" name="discount" value="10" /><span>10%</span></label>
+								<label><input type="radio" name="discount" value="20" /><span>20%</span></label>
+								<label><input type="radio" name="discount" value="30" /><span>30%</span></label>
+								<label><input type="radio" name="discount" value="40" /><span>40%</span></label>
+								<label><input type="radio" name="discount" value="50" /><span>50%</span></label>
+								<label><input type="radio" name="discount" value="60" /><span>60%</span></label>
+								<label><input type="radio" name="discount" value="70" /><span>70%</span></label>
+								<label><input type="radio" name="discount" value="80" /><span>80%</span></label>
+								<label><input type="radio" name="discount" value="90" /><span>90%</span></label>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td><button>4</button></td>
+			<td><button>5</button></td>
+			<td><button>6</button></td>
+		</tr>
+		<tr>
+			<td><button>1</button></td>
+			<td><button>2</button></td>
+			<td><button>3</button></td>
+		</tr>
+		<tr>
+			<td><button>0</button></td>
+			<td><button class="op">&#x232B</button></td>
+			<td><button class="op">&#x23CE</button></td>
+		</tr>
+	</table>
 	<div id="banner">
 	</div>
 	<div class="menu">
