@@ -2,6 +2,7 @@
 	const TEXT_BACK = "\u232B";
 	const TEXT_ENTER = "\u23CE";
 	const TEXT_YEN = "\u00A5";
+	const STORAGE_KEY = "items";
 
 	function parseBoolean(value) {
 		return value === "1"; // XXX: for current usage in time
@@ -44,8 +45,8 @@
 		return TEXT_YEN + String(yen).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 	}
 
-	function toSubTotalYen(item) {
-		return toYen(Math.floor(calcItemTotal(item.qty, item.unit, item.tax, item.discount)));
+	function toSubTotalYen(data) {
+		return toYen(Math.floor(calcItemTotal(data.qty, data.unit, data.tax, data.discount)));
 	}
 
 	function getYen(e) {
@@ -65,6 +66,14 @@
 		}
 	}
 
+	function validateData(data) {
+		return typeof(data) === "object" &&
+			typeof(data.qty) === "number" &&
+			typeof(data.unit) === "number" &&
+			typeof(data.tax) === "number" &&
+			typeof(data.discount) === "number";
+	}
+
 	window.onload = function() {
 		const [
 			itemTemplate,
@@ -72,14 +81,16 @@
 			total_exc,
 			total_tax,
 			calc,
-			clear
+			clear,
+			debug
 		] = querySelectorEach(document, [
 			"#items .item",
 			"#total-inc",
 			"#total-exc",
 			"#total-tax",
 			"#calc",
-			"#clear"
+			"#clear",
+			"#debug"
 		]);
 
 		const items = itemTemplate.parentElement;
@@ -100,9 +111,9 @@
 			setYen(total_tax, sum_inc - sum_exc);
 		}
 
-		function addItem(unit_, tax_, discount_) {
+		function newItem(qty_, unit_, tax_, discount_) {
 			const data = {
-				qty: 1,
+				qty: qty_,
 				unit: unit_,
 				tax: tax_,
 				discount: discount_,
@@ -156,16 +167,35 @@
 				updateTotal();
 				setAnimation(item, "fadeout", () => items.removeChild(item));
 			});
-			qty.textContent = 1;
+			qty.textContent = data.qty;
 			unit.textContent = toYen(data.unit);
 			setItemValue(discount, data.discount);
 			setItemValue(tax, data.tax);
 			sub.textContent = toSubTotalYen(data);
 
 			updateButtons();
+			return item;
+		}
+
+		function addItem(unit_, tax_, discount_) {
+			const item = newItem(1, unit_, tax_, discount_);
 			items.prepend(item);
 			items.scrollTop = items.scrollHeight;
 			updateTotal();
+		}
+
+		function serialize() {
+			return JSON.stringify([...items.querySelectorAll(".item")].map(item => item.data));
+		}
+
+		function deserialize(text) {
+			if (text) {
+				JSON.parse(text).forEach(data => {
+					if (validateData(data)) {
+						items.appendChild(newItem(data.qty, data.unit, data.tax, data.discount));
+					}
+				});
+			}
 		}
 
 		const unit = calc.querySelector("#unit");
@@ -204,6 +234,31 @@
 		clear.addEventListener("click", () => {
 			items.textContent = "";
 			updateTotal();
+		});
+
+		debug.addEventListener("click", () => {
+			try {
+				const text = serialize();
+				items.textContent = "";
+				deserialize(text);
+			} catch (e) {
+				console.log(e);
+			}
+			updateTotal();
+		});
+
+		try {
+			deserialize(localStorage.getItem(STORAGE_KEY));
+		} catch (e) {
+			// ignore
+		}
+
+		window.addEventListener("beforeunload", () => {
+			try {
+				localStorage.setItem(STORAGE_KEY, serialize());
+			} catch (e) {
+				// ignore
+			}
 		});
 	}
 })();
