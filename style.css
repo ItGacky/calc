@@ -1,8 +1,27 @@
 @charset "utf-8";
-:root {
+:root,
+.light {
+	--color-text: black;
+	--color-warning: #C00;
+	--color-radio: brown;
+	--color-tax: brown;
+	--color-discount: blue;
+	--color-bg: #FFF;
+	--color-item: #EEE;
+	--color-item-border: #444;
+	--color-border: #444;
+	--color-price: #DDD;
+	--color-button: #DDD;
+	--color-button-active: #EEE;
+	--color-op: #C88;
+	--color-op-active: #844;
+	--color-menu: #CCC;
+}
+
+.dark {
 	--color-text: white;
 	--color-warning: #C00;
-	--color-radio: orange;
+	--color-radio: brown;
 	--color-tax: brown;
 	--color-discount: yellow;
 	--color-bg: #000;
@@ -35,12 +54,12 @@
 }
 
 html {
-	color: var(--color-text);
-	background-color: var(--color-bg);
 	touch-action: manipulation;
 }
 
 body {
+	color: var(--color-text);
+	background-color: var(--color-bg);
 	display: flex;
 	flex-flow: column;
 	min-height: 100vh;
@@ -119,10 +138,6 @@ button.remove {
 	margin-right: 0.5rem;
 }
 
-#items {
-	border-bottom: 1px solid var(--color-item-border);
-}
-
 .item {
 	margin: 2px;
 	font-size: 1rem;
@@ -173,6 +188,7 @@ button.remove {
 #calc button {
 	width: 4rem;
 	height: 4rem;
+	border: 0;
 }
 
 #calc button.op {

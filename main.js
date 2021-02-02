@@ -2,7 +2,10 @@
 	const TEXT_BACK = "\u232B";
 	const TEXT_ENTER = "\u23CE";
 	const TEXT_YEN = "\u00A5";
-	const STORAGE_KEY = "items";
+	const STORAGE_ITEMS = "items";
+	const STORAGE_THEME = "theme";
+	const THEME_LIGHT = "light";
+	const THEME_DARK = "dark";
 
 	function parseBoolean(value) {
 		return value === "1"; // XXX: for current usage in time
@@ -74,8 +77,43 @@
 			typeof(data.discount) === "number";
 	}
 
+	function setTheme(theme) {
+		if (theme == THEME_DARK) {
+			document.body.classList.add(THEME_DARK);
+		} else {
+			document.body.classList.remove(THEME_DARK);
+		}
+		document.getElementById(`theme-${theme}`).checked = true;
+		try {
+			localStorage.setItem(STORAGE_THEME, theme);
+		} catch (e) {
+			// ignore
+		}
+	}
+
+	function loadTheme() {
+		try {
+			const theme = localStorage.getItem(STORAGE_THEME);
+			setTheme(theme == THEME_DARK ? THEME_DARK : THEME_LIGHT);
+		} catch (e) {
+			// ignore
+		}
+	}
+
+	function onThemeChange() {
+		switch (this.value) {
+			case THEME_DARK:
+				setTheme(THEME_DARK);
+				break;
+			default:
+				setTheme(THEME_LIGHT);
+				break;
+		}
+	}
+
 	window.onload = function() {
 		let modified = true;
+		loadTheme();
 
 		const [
 			itemTemplate,
@@ -242,7 +280,7 @@
 		function loadItems() {
 			if (modified) {
 				try {
-					deserialize(localStorage.getItem(STORAGE_KEY));
+					deserialize(localStorage.getItem(STORAGE_ITEMS));
 					updateTotal();
 				} catch (e) {
 					// ignore
@@ -255,7 +293,7 @@
 			if (modified) {
 				modified = false;
 				try {
-					localStorage.setItem(STORAGE_KEY, serialize());
+					localStorage.setItem(STORAGE_ITEMS, serialize());
 				} catch (e) {
 					// ignore
 				}
@@ -267,6 +305,9 @@
 		window.addEventListener("beforeunload", saveItems);
 		window.addEventListener("unload", saveItems);
 		save.addEventListener("click", saveItems);
+		for (let e of document.querySelectorAll("input[type=radio][name=theme]")) {
+			e.addEventListener("change", onThemeChange);
+		}
 		loadItems();
 	}
 })();
