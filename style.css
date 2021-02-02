@@ -199,15 +199,6 @@ button.remove {
 	background-color: var(--color-op-active);
 }
 
-#calc .mods {
-	width: 100%;
-	vertical-align: top;
-}
-
-#calc .mods table {
-	width: 100%;
-}
-
 #unit {
 	background-color: var(--color-price);
 	padding-right: 0.5rem;
@@ -215,7 +206,7 @@ button.remove {
 	text-align: right;
 }
 
-#calc td.tax {
+#calc th {
 	width: 50%;
 }
 
@@ -281,20 +272,15 @@ button.remove {
 	transition: all 400ms;
 }
 
-.menu-content ul {
+.menu-content dl {
 	padding: 4rem 1rem 0;
 }
 
-.menu-content ul li {
-	border-bottom: solid 1px var(--color-text);
-	list-style: none;
+.menu-content dd {
+	margin-bottom: 1rem;
 }
 
-.menu-content ul li {
-	display: block;
-	width: 100%;
-	box-sizing: border-box;
-	text-decoration: none;
-	padding: 0.5rem 1rem 0.5rem 0;
-	position: relative;
+.menu-content button {
+	font-size: 1rem;
+	padding: 0.5rem;
 }

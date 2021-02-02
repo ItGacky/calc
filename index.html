@@ -30,49 +30,43 @@
 	</div>
 	<table id="calc">
 		<tr>
-			<td><button>7</button></td>
-			<td><button>8</button></td>
-			<td><button>9</button></td>
-			<td rowspan="4" class="mods">
-				<div id="unit">0</div>
-				<table>
-					<tr>
-						<th>消費税</th>
-						<th>割引</th>
-					</tr>
-					<tr>
-						<td class="tax">
-							<label><input type="radio" name="tax" value="0" /><span>0%</span></label>
-							<label><input type="radio" name="tax" value="8" checked="chedked" /><span>8%</span></label>
-							<label><input type="radio" name="tax" value="10" /><span>10%</span></label>
-							<hr />
-							<label><input type="radio" name="inc" value="0" checked="chedked" /><span>税別</span></label>
-							<label><input type="radio" name="inc" value="1" /><span>税込</span></label>
-						</td>
-						<td class="discount">
-							<div>
-								<label><input type="radio" name="discount" value="0" checked="chedked" /><span>0%</span></label>
-								<label><input type="radio" name="discount" value="5" /><span>5%</span></label>
-								<label><input type="radio" name="discount" value="10" /><span>10%</span></label>
-								<label><input type="radio" name="discount" value="15" /><span>15%</span></label>
-								<label><input type="radio" name="discount" value="20" /><span>20%</span></label>
-								<label><input type="radio" name="discount" value="30" /><span>30%</span></label>
-								<label><input type="radio" name="discount" value="40" /><span>40%</span></label>
-								<label><input type="radio" name="discount" value="50" /><span>50%</span></label>
-								<label><input type="radio" name="discount" value="60" /><span>60%</span></label>
-								<label><input type="radio" name="discount" value="70" /><span>70%</span></label>
-								<label><input type="radio" name="discount" value="80" /><span>80%</span></label>
-								<label><input type="radio" name="discount" value="90" /><span>90%</span></label>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</td>
+			<td rowspan="2"><button>7</button></td>
+			<td rowspan="2"><button>8</button></td>
+			<td rowspan="2"><button>9</button></td>
+			<td colspan="2" id="unit">0</td>
+		</tr>
+		<tr>
+			<th>消費税</th>
+			<th>割引</th>
 		</tr>
 		<tr>
 			<td><button>4</button></td>
 			<td><button>5</button></td>
 			<td><button>6</button></td>
+			<td rowspan="3" class="tax">
+				<label><input type="radio" name="tax" value="0" /><span>0%</span></label>
+				<label><input type="radio" name="tax" value="8" checked="chedked" /><span>8%</span></label>
+				<label><input type="radio" name="tax" value="10" /><span>10%</span></label>
+				<hr />
+				<label><input type="radio" name="inc" value="0" checked="chedked" /><span>税別</span></label>
+				<label><input type="radio" name="inc" value="1" /><span>税込</span></label>
+			</td>
+			<td rowspan="3" class="discount">
+				<div>
+					<label><input type="radio" name="discount" value="0" checked="chedked" /><span>0%</span></label>
+					<label><input type="radio" name="discount" value="5" /><span>5%</span></label>
+					<label><input type="radio" name="discount" value="10" /><span>10%</span></label>
+					<label><input type="radio" name="discount" value="15" /><span>15%</span></label>
+					<label><input type="radio" name="discount" value="20" /><span>20%</span></label>
+					<label><input type="radio" name="discount" value="30" /><span>30%</span></label>
+					<label><input type="radio" name="discount" value="40" /><span>40%</span></label>
+					<label><input type="radio" name="discount" value="50" /><span>50%</span></label>
+					<label><input type="radio" name="discount" value="60" /><span>60%</span></label>
+					<label><input type="radio" name="discount" value="70" /><span>70%</span></label>
+					<label><input type="radio" name="discount" value="80" /><span>80%</span></label>
+					<label><input type="radio" name="discount" value="90" /><span>90%</span></label>
+				</div>
+			</td>
 		</tr>
 		<tr>
 			<td><button>1</button></td>
@@ -91,15 +85,17 @@
 		<input type="checkbox" id="menu-state" />
 		<label for="menu-state" class="menu-open"></label>
 		<div class="menu-content">
-			<ul>
-				<li><button id="clear">空にする</button></li>
-				<li>
-					テーマ:
+			<dl>
+				<dt>操作</dt>
+				<dd>
+					<button id="clear">空にする</button>
+				</dd>
+				<dt>テーマ</dt>
+				<dd>
 					<label><input type="radio" name="theme" value="light" id="theme-light" checked="chedked" /><span>ライト</span></label>
 					<label><input type="radio" name="theme" value="dark" id="theme-dark" /><span>ダーク</span></label>
-				</li>
-				<li><button id="save">保存する</button></li>
-			</ul>
+				</dd>
+			</dl>
 		</div>
 	</div>
 </body>

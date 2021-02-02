@@ -111,6 +111,10 @@
 		}
 	}
 
+	function closeMenu() {
+		document.getElementById("menu-state").checked = false;
+	}
+
 	window.onload = function() {
 		let modified = true;
 		loadTheme();
@@ -122,7 +126,8 @@
 			total_tax,
 			calc,
 			clear,
-			save
+			theme_light,
+			theme_dark
 		] = querySelectorEach(document, [
 			"#items .item",
 			"#total-inc",
@@ -130,7 +135,8 @@
 			"#total-tax",
 			"#calc",
 			"#clear",
-			"#save"
+			"#theme-light",
+			"#theme-dark"
 		]);
 
 		const items = itemTemplate.parentElement;
@@ -275,6 +281,7 @@
 		clear.addEventListener("click", () => {
 			items.textContent = "";
 			updateTotal();
+			closeMenu();
 		});
 
 		function loadItems() {
@@ -304,10 +311,8 @@
 		window.addEventListener("pagehide", saveItems);
 		window.addEventListener("beforeunload", saveItems);
 		window.addEventListener("unload", saveItems);
-		save.addEventListener("click", saveItems);
-		for (let e of document.querySelectorAll("input[type=radio][name=theme]")) {
-			e.addEventListener("change", onThemeChange);
-		}
+		theme_light.addEventListener("change", onThemeChange);
+		theme_dark.addEventListener("change", onThemeChange);
 		loadItems();
 	}
 })();
