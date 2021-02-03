@@ -220,8 +220,10 @@ button.remove {
 	color: var(--color-radio);
 }
 
+#calc td.discount tax,
 #calc td.discount div {
 	height: 12rem;
+	overflow-x: visible;
 	overflow-y: auto;
 }
 
