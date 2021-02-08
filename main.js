@@ -6,6 +6,7 @@
 	const STORAGE_THEME = "theme";
 	const THEME_LIGHT = "light";
 	const THEME_DARK = "dark";
+	const SAVE_DELAY_MS = 10000;
 
 	function parseBoolean(value) {
 		return value === "1"; // XXX: for current usage in time
@@ -116,7 +117,7 @@
 	}
 
 	window.onload = function() {
-		let modified = true;
+		let modified = undefined;
 		loadTheme();
 
 		const [
@@ -142,8 +143,20 @@
 		const items = itemTemplate.parentElement;
 		items.removeChild(itemTemplate);
 
+		function save() {
+			if (modified !== undefined) {
+				clearTimeout(modified);
+				modified = undefined;
+				try {
+					const text = JSON.stringify([...items.querySelectorAll(".item")].map(item => item.data));
+					localStorage.setItem(STORAGE_ITEMS, text);
+				} catch (e) {
+					// ignore
+				}
+			}
+		}
+
 		function updateTotal() {
-			modified = true;
 			let sum_inc = 0;
 			let sum_exc = 0;
 			for (let item of items.querySelectorAll(".item")) {
@@ -156,6 +169,14 @@
 			setYen(total_inc, sum_inc);
 			setYen(total_exc, sum_exc);
 			setYen(total_tax, sum_inc - sum_exc);
+		}
+
+		function onItemChange() {
+			updateTotal();
+			if (modified !== undefined) {
+				clearTimeout(modified);
+			}
+			modified = setTimeout(save, SAVE_DELAY_MS);
 		}
 
 		function newItem(qty_, unit_, tax_, discount_) {
@@ -199,19 +220,19 @@
 				qty.textContent = data.qty;
 				sub.textContent = toSubTotalYen(data);
 				updateButtons();
-				updateTotal();
+				onItemChange();
 			});
 			down.addEventListener("click", () => {
 				data.qty -= 1;
 				qty.textContent = data.qty;
 				sub.textContent = toSubTotalYen(data);
 				updateButtons();
-				updateTotal();
+				onItemChange();
 			});
 			remove.addEventListener("click", () => {
 				data.qty = 0;
 				up.disabled = down.disabled = close.disabled = true;
-				updateTotal();
+				onItemChange();
 				setAnimation(item, "fadeout", () => items.removeChild(item));
 			});
 			qty.textContent = data.qty;
@@ -228,21 +249,7 @@
 			const item = newItem(1, unit_, tax_, discount_);
 			items.prepend(item);
 			items.scrollTop = items.scrollHeight;
-			updateTotal();
-		}
-
-		function serialize() {
-			return JSON.stringify([...items.querySelectorAll(".item")].map(item => item.data));
-		}
-
-		function deserialize(text) {
-			if (text) {
-				JSON.parse(text).forEach(data => {
-					if (validateData(data)) {
-						items.appendChild(newItem(data.qty, data.unit, data.tax, data.discount));
-					}
-				});
-			}
+			onItemChange();
 		}
 
 		const unit = calc.querySelector("#unit");
@@ -280,39 +287,29 @@
 
 		clear.addEventListener("click", () => {
 			items.textContent = "";
-			updateTotal();
+			onItemChange();
 			closeMenu();
 		});
 
-		function loadItems() {
-			if (modified) {
-				try {
-					deserialize(localStorage.getItem(STORAGE_ITEMS));
-					updateTotal();
-				} catch (e) {
-					// ignore
-				}
-				modified = false;
-			}
-		}
-
-		function saveItems() {
-			if (modified) {
-				modified = false;
-				try {
-					localStorage.setItem(STORAGE_ITEMS, serialize());
-				} catch (e) {
-					// ignore
-				}
-			}
-		}
-
-		window.addEventListener("pageshow", loadItems);
-		window.addEventListener("pagehide", saveItems);
-		window.addEventListener("beforeunload", saveItems);
-		window.addEventListener("unload", saveItems);
+		window.addEventListener("beforeunload", save);
+		window.addEventListener("unload", save);
 		theme_light.addEventListener("change", onThemeChange);
 		theme_dark.addEventListener("change", onThemeChange);
-		loadItems();
+
+		// load items
+		try {
+			const text = localStorage.getItem(STORAGE_ITEMS);
+			if (text) {
+				JSON.parse(text).forEach(data => {
+					if (validateData(data)) {
+						items.appendChild(newItem(data.qty, data.unit, data.tax, data.discount));
+					}
+				});
+			}
+		} catch (e) {
+			// ignore
+		}
+
+		updateTotal();
 	}
 })();
