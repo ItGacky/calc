@@ -29,14 +29,6 @@
 		}
 	}
 
-	function querySelectorEach(node, exprs) {
-		const elems = [];
-		for (let expr of exprs) {
-			elems.push(node.querySelector(expr));
-		}
-		return elems;
-	}
-
 	function queryRadioValue(node, name) {
 		return node.querySelector(`input[name=${name}]:checked`).value;
 	}
@@ -129,7 +121,7 @@
 			clear,
 			theme_light,
 			theme_dark
-		] = querySelectorEach(document, [
+		] = [
 			"#items .item",
 			"#total-inc",
 			"#total-exc",
@@ -138,7 +130,7 @@
 			"#clear",
 			"#theme-light",
 			"#theme-dark"
-		]);
+		].map(e => document.querySelector(e));
 
 		const items = itemTemplate.parentElement;
 		items.removeChild(itemTemplate);
@@ -198,7 +190,7 @@
 				tax,
 				discount,
 				sub
-			] = querySelectorEach(item, [
+			] = [
 				".up",
 				".down",
 				".remove",
@@ -207,7 +199,7 @@
 				".tax span",
 				".discount span",
 				".sub"
-			]);
+			].map(e => item.querySelector(e));
 
 			function updateButtons() {
 				const some = (data.qty > 0);
